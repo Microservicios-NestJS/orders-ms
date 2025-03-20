@@ -3,7 +3,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { PrismaClient } from '@prisma/client';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { OrderPaginationDto,ChangeOrderStatusDto } from './dto';
-import { PRODUCT_SERVICE } from 'src/config';
+import { NATS_SERVERS } from 'src/config';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class OrdersService extends PrismaClient implements OnModuleInit {
  
  private readonly logger = new Logger('OrdersService');
  constructor(
-  @Inject(PRODUCT_SERVICE) private readonly productsClient: ClientProxy,
+  @Inject(NATS_SERVERS) private readonly productsClient: ClientProxy,
 ) {
    super();
  }
@@ -140,7 +140,6 @@ export class OrdersService extends PrismaClient implements OnModuleInit {
       ).name,
       }))
     };
-    return order;
   }
  async changeStatus(changeOrderStatusDto:ChangeOrderStatusDto){
   
