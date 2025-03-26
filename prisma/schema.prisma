@@ -15,6 +15,7 @@ datasource db {
 
 enum OrderStatus{
   PENDIENTE
+  PAGADO
   ENTREGADA
   CANCELADA
 }
@@ -26,11 +27,13 @@ totaItems Int
 status OrderStatus @default(PENDIENTE)
 paid Boolean @default(false)
 paiAt DateTime?
+stripeCharteId String?
 
 createdAt DateTime @default(now())
 updateAt DateTime @updatedAt
 
 OrderItem OrderItem[]
+orderId OrderReceipt?
 }
 model OrderItem{
  id   String @id @default(uuid())
@@ -40,4 +43,15 @@ model OrderItem{
  
  Order Order? @relation(fields:[orderId],references: [id])
  orderId String?
+}
+model OrderReceipt{
+id String @id @default(uuid())
+
+order Order @relation(fields: [orderId], references: [id])
+orderId String @unique
+
+recaiptUrl String
+
+createdAt DateTime @default(now())
+updateAt DateTime @updatedAt
 }
