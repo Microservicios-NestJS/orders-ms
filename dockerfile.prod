@@ -13,6 +13,9 @@ RUN npm install
 
 FROM node:21-alpine3.19 AS build
 
+ARG ORDERS_DATABASE_URL
+ENV DATABASE_URL=${ORDEERS_DATABASE_URL}
+
 WORKDIR /usr/src/app
 #copiar de deps los modulos de node 
 
